@@ -100,6 +100,29 @@ character_weapons = """
     GROUP BY character_id;
 """
 
+
+# Additionally, the above two functions could be done without the previously defined
+# for loop function and have everything handled entirely in SQL with the following
+# two queries
+avg_items = """
+    SELECT avg(total_items)
+    FROM (SELECT COUNT(item_id) as total_items
+    FROM charactercreator_character_inventory
+    GROUP BY character_id);
+"""
+
+
+avg_weapons = """
+    SELECT avg(total_weapons)
+    FROM (SELECT COUNT(item_id) as total_weapons
+    FROM charactercreator_character_inventory
+    WHERE item_id
+    IN (SELECT item_ptr_id
+    FROM armory_weapon)
+    GROUP BY character_id);
+"""
+
+
 # This will automatically run the report upon opening the file by
 # using our functions to pull our queries and return the results
 # in an easy to read format
